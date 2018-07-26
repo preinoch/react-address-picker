@@ -1,0 +1,74 @@
+.rc-address-selector {
+  position: fixed;
+  height: 400px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  color: #333;
+
+  & > h2 {
+    text-align: center;
+    
+    font-size: 18px;
+    font-weight: 400;
+    padding: 16px;
+    margin: 0;
+  }
+
+  &>dl {
+    margin: 0;
+  }
+
+  .rc-ds-address {
+    list-style: none;
+    margin: 0;
+    padding-left: 10px;
+    line-height: 40px;
+    
+    &>li {
+      display: inline-block;
+      padding: 0 10px;
+      margin-right: 16px;
+    }
+  }
+
+  .onepx-border {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: "";
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background: #eee;
+    }
+  }
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (min-device-pixel-ratio: 1.5) {
+    .onepx-border::after {
+      transform: scaleY(0.66);
+    }
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-device-pixel-ratio: 2) {
+    .onepx-border::after {
+      transform: scaleY(0.5);
+    }
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2.5),
+    only screen and (min-device-pixel-ratio: 2.5) {
+    .onepx-border::after {
+      transform: scaleY(0.4);
+    }
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min-device-pixel-ratio: 3) {
+    .onepx-border::after {
+      transform: scaleY(0.33);
+    }
+  }
+}
