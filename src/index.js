@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./styles.scss";
 
+const addressCache = []
+
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -14,21 +16,29 @@ export default class extends Component {
   changeIndex(i) {
     const target = this.refs.rcAddress.childNodes[i];
     const left = target.offsetLeft + "px";
-    const right =
-      screen.width - target.offsetLeft - target.offsetWidth + "px";
+    const right = screen.width - target.offsetLeft - target.offsetWidth + "px";
     this.setState({ activeStyle: { left, right } });
   }
 
+  getChildren() {
+    
+  }
+
   componentDidMount() {
-    this.changeIndex(0)
+    this.changeIndex(0);
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount()')
   }
 
   render() {
     let state = this.state;
-    
+
     return (
       <div className="rc-address-selector">
         <h2 className="onepx-border">行政区划选择</h2>
+
         <dl>
           <dt>
             <ul ref="rcAddress" className="rc-ds-address onepx-border">
@@ -44,7 +54,10 @@ export default class extends Component {
             </ul>
             <div className="rc-ds-active" style={state.activeStyle} />
           </dt>
-          <dd>123</dd>
+          <dd>
+            <button onClick={this.s}>设置</button>
+            <button onClick={this.g}>获取</button>
+          </dd>
         </dl>
       </div>
     );
