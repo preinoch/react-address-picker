@@ -9,44 +9,43 @@
 
   & > h2 {
     text-align: center;
-    
+
     font-size: 18px;
     font-weight: 400;
     padding: 16px;
     margin: 0;
   }
 
-  &>dl {
+  & > dl {
     margin: 0;
+    &>dt {
+      position: relative;
+    }
   }
 
   .rc-ds-address {
     list-style: none;
     margin: 0;
-    padding-left: 10px;
+    padding-left: 20px;
     line-height: 40px;
-    
-    &>li {
-      position: relative;
+    font-size: 15px;
+
+    & > li {
       display: inline-block;
       padding: 0 10px;
       margin-right: 16px;
-
-      &.active {
-        &::after {
-          position: absolute;
-          content: '';
-          left: 3px;
-          right: 3px;
-          bottom: 0;
-          height: 2px;
-          background: #2BA7FF;
-          transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1),
-          left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-        }
-      }
-
     }
+  }
+
+  .rc-ds-active {
+    position: absolute;
+    // left: 20px;
+    // right: 40px;
+    bottom: 0;
+    height: 2px;
+    background: #2BA7FF;
+    transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1),
+    left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
   }
 
   .onepx-border {
