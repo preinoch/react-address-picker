@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import "./index.scss";
-import Example from "../../src";
+import ReactAdressSelector from "../../src";
 import jsonp from "jsonp";
+import { resolve } from "path";
+import { reject } from "when";
 
 class Demo extends Component {
   constructor() {
@@ -18,21 +20,28 @@ class Demo extends Component {
     this.setState({ show: !this.state.show });
   }
 
-  async getchildren(id) {
-    jsonp(
-      "https://apis.map.qq.com/ws/district/v1/getchildren?key=X3LBZ-BVMKW-VIIRL-RHBWD-KNYJH-VSF7G&output=jsonp" +
-        (id ? '&id='+id : ''),
-      {
-        name: "QQmap"
-      },
-      (err, data) => {
-        if(data.status === 0) {
-          return data.result
-        }else {
-          throw new Error(data)
+  async componentDidMount() {
+    console.log(await this.getchildren())
+  }
+
+  getchildren(id) {
+    return new Promise((resolve, reject)=>{
+      jsonp(
+        "https://apis.map.qq.com/ws/district/v1/getchildren?key=X3LBZ-BVMKW-VIIRL-RHBWD-KNYJH-VSF7G&output=jsonp" +
+          (id ? '&id='+id : ''),
+        {
+          name: "QQmap"
+        },
+        (err, data) => {
+          // console.log(data)
+          if(data.status === 0) {
+            resolve(data.result[0])
+          }else {
+            reject(data)
+          }
         }
-      }
-    );
+      );
+    })
   }
 
   render() {
@@ -41,12 +50,13 @@ class Demo extends Component {
         <button
           type="button"
           onClick={() => {
-            this.getchildren(110000);
+            this.setState({show: true})
+            // this.getchildren();
           }}
         >
           点击开启
         </button>
-        {this.state.show ? <Example ref="rc" /> : ""}
+        {this.state.show ? <ReactAdressSelector getChildren={this.getchildren}/> : ""}
       </div>
     );
   }

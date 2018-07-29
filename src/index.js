@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./styles.scss";
 
-const addressCache = []
+const addressCache = [];
+const unselected = { name: "请选择", id: 0 }
 
 export default class extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ export default class extends Component {
     this.state = {
       active: 0,
       activeStyle: {},
-      address: [{ name: "四川" }, { name: "成都市" }, { name: "武侯区" }]
+      address: [],
+      list: []
     };
   }
 
@@ -20,16 +22,58 @@ export default class extends Component {
     this.setState({ activeStyle: { left, right } });
   }
 
-  getChildren() {
+  // getChildren() {
+  //   this.props.getChildren();
+  // }
+
+  async setList(value, index) {
+    let active = this.state.active
+    let address = this.state.address
+    if(address[active].id === 0) {
+      // address[index] = value 
+      address.splice(active, 1, value)
+      address.push(unselected)
+      active += 1
+      // debugger
+    }else {
+      
+    }
     
+    this.setState({address,active},()=>{
+      this.changeIndex(active)
+    })  
+    // setTimeout(() => {
+      
+    // }, 100);
+    
+    try{
+      let list = await this.props.getChildren(value.id)
+      this.setState({list})
+    }catch(e) {
+      console.log(e)
+    }
+    
+    
+    // this.setState({address, list})
+  }
+
+  async componentWillMount() {
+    // console.log(await this.props.getChildren())
+    if (this.state.address.length === 0) {
+      let address = [unselected];
+      let list = await this.props.getChildren();
+      this.setState({ list, address });
+      this.changeIndex(0);
+    }
+    // console.log(list)
   }
 
   componentDidMount() {
-    this.changeIndex(0);
+    // this.changeIndex(0);
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount()')
+    console.log("componentWillUnmount()");
   }
 
   render() {
@@ -38,9 +82,9 @@ export default class extends Component {
     return (
       <div className="rc-address-selector">
         <h2 className="onepx-border">行政区划选择</h2>
-
         <dl>
           <dt>
+            {/* <i className="weui-loading"></i> */}
             <ul ref="rcAddress" className="rc-ds-address onepx-border">
               {state.address.map((v, i) => (
                 <li
@@ -55,8 +99,15 @@ export default class extends Component {
             <div className="rc-ds-active" style={state.activeStyle} />
           </dt>
           <dd>
-            <button onClick={this.s}>设置</button>
-            <button onClick={this.g}>获取</button>
+            <ul className="rc-adress-list">
+              {this.state.list.map((v, i) => (
+                <li key={i} onClick={this.setList.bind(this, v, i)}>
+                  {v.fullname}
+                </li>
+              ))}
+            </ul>
+            {/* <button onClick={this.s}>设置</button>
+            <button onClick={this.g}>获取</button> */}
           </dd>
         </dl>
       </div>
