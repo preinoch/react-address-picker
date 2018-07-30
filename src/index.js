@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./styles.scss";
 
 const addressCache = [];
-const unselected = { name: "请选择", id: 0 }
+const unselected = { name: "请选择", id: 0 };
 
 export default class extends Component {
   constructor(props) {
@@ -15,57 +15,67 @@ export default class extends Component {
     };
   }
 
-  changeIndex(i) {
-    const target = this.refs.rcAddress.childNodes[i];
+  handleAddressClick(v, i) {
+    const state = this.state
+    if(i === state.active) {
+      return 
+    }
+    this.changeIndex(i);
+    this.setList(v);
+  }
+
+  async handleListClick(value, index) {
+    let active = this.state.active;
+    let address = this.state.address;
+
+    if (address[active].id === 0) {
+      address.splice(active, 1, value);
+      this.setState({ address }, () => {
+        this.changeIndex(active);
+      });
+    }
+
+    const list = await this.setList(value,index)
+
+    if(list.length > 0) {
+      address.push(unselected);
+      active += 1;
+      this.setState({ address, active }, () => {
+        this.changeIndex(active);
+      });
+    }
+
+  }
+
+  changeIndex(index) {
+    const target = this.refs.rcAddress.childNodes[index];
     const left = target.offsetLeft + "px";
     const right = screen.width - target.offsetLeft - target.offsetWidth + "px";
-    this.setState({ activeStyle: { left, right } });
+    this.setState({ activeStyle: { left, right }, active: index });
   }
 
   none() {
-    console.log('it is none')
-    this.props.onNone()
+    this.props.onNone();
   }
 
   async setList(value, index) {
-    let active = this.state.active
-    let address = this.state.address
-    if(address[active].id === 0) {
-      // address[index] = value 
-      address.splice(active, 1, value)
-      address.push(unselected)
-      active += 1
-      // debugger
-    }else {
-      
+    try {
+      let list = await this.props.getChildren(value.id, this.none.bind(this));
+      this.props.onSuccess();
+      this.setState({ list });
+      return list
+    } catch (e) {
+      this.props.onError();
     }
-    
-    this.setState({address,active},()=>{
-      this.changeIndex(active)
-    })  
-    
-    try{
-      let list = await this.props.getChildren(value.id, this.none.bind(this))
-      if(list.length !== 0) {
-        this.props.onSuccess()
-        this.setState({list})
-      }
-    }catch(e) {
-      this.props.onError()
-    }
-    
-    // this.setState({address, list})
   }
 
   async componentWillMount() {
-    // console.log(await this.props.getChildren())
     if (this.state.address.length === 0) {
       let address = [unselected];
       let list = await this.props.getChildren();
       this.setState({ list, address });
       this.changeIndex(0);
     }
-    // console.log(list)
   }
 
   componentDidMount() {
@@ -90,7 +100,7 @@ export default class extends Component {
                 <li
                   className={i === state.active ? "active" : ""}
                   key={i}
-                  onClick={this.changeIndex.bind(this, i)}
+                  onClick={this.handleAddressClick.bind(this, v, i)}
                 >
                   {v.name || v.fullname}
                 </li>
@@ -101,7 +111,7 @@ export default class extends Component {
           <dd>
             <ul className="rc-adress-list">
               {this.state.list.map((v, i) => (
-                <li key={i} onClick={this.setList.bind(this, v, i)}>
+                <li key={i} onClick={this.handleListClick.bind(this, v, i)}>
                   {v.fullname}
                 </li>
               ))}
