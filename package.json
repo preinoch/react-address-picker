@@ -28,7 +28,8 @@
     "nwb": "0.21.x",
     "nwb-sass": "^0.8.4",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "react-weui": "^1.1.3"
   },
   "author": "",
   "homepage": "",

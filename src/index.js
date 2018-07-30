@@ -12,7 +12,6 @@ export default class extends Component {
       activeStyle: {},
       address: [],
       list: [],
-      // show: this.props.active
     };
   }
 
@@ -37,8 +36,8 @@ export default class extends Component {
     address.push(value);
     this.setState({ address }, () => {
       this.changeIndex(active);
-    });
-
+    }); 
+    this.props.onAddressChange(address.filter(v=>(v.id!==0)))
     const list = await this.setList(value, index);
 
     if (list.length > 0) {
