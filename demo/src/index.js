@@ -20,11 +20,23 @@ class Demo extends Component {
     this.setState({ show: !this.state.show });
   }
 
+  handleSuccess() {
+    console.log('handleSuccess')
+  }
+
+  handleError() {
+    console.log('handleError')
+  }
+
+  handleNone() {
+    console.log('handleNone')
+  }
+
   async componentDidMount() {
     console.log(await this.getchildren())
   }
 
-  getchildren(id) {
+  getchildren(id, none) {
     return new Promise((resolve, reject)=>{
       jsonp(
         "https://apis.map.qq.com/ws/district/v1/getchildren?key=X3LBZ-BVMKW-VIIRL-RHBWD-KNYJH-VSF7G&output=jsonp" +
@@ -36,6 +48,8 @@ class Demo extends Component {
           // console.log(data)
           if(data.status === 0) {
             resolve(data.result[0])
+          }else if(data.status === 363){
+            none()
           }else {
             reject(data)
           }
@@ -56,7 +70,10 @@ class Demo extends Component {
         >
           点击开启
         </button>
-        {this.state.show ? <ReactAdressSelector getChildren={this.getchildren}/> : ""}
+        {this.state.show ? <ReactAdressSelector getChildren={this.getchildren} 
+        onSuccess={this.handleSuccess} 
+        onError={this.handleError}
+        onNone={this.handleNone}/> : ""}
       </div>
     );
   }

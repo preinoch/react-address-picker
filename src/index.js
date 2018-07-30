@@ -22,9 +22,10 @@ export default class extends Component {
     this.setState({ activeStyle: { left, right } });
   }
 
-  // getChildren() {
-  //   this.props.getChildren();
-  // }
+  none() {
+    console.log('it is none')
+    this.props.onNone()
+  }
 
   async setList(value, index) {
     let active = this.state.active
@@ -42,17 +43,16 @@ export default class extends Component {
     this.setState({address,active},()=>{
       this.changeIndex(active)
     })  
-    // setTimeout(() => {
-      
-    // }, 100);
     
     try{
-      let list = await this.props.getChildren(value.id)
-      this.setState({list})
+      let list = await this.props.getChildren(value.id, this.none.bind(this))
+      if(list.length !== 0) {
+        this.props.onSuccess()
+        this.setState({list})
+      }
     }catch(e) {
-      console.log(e)
+      this.props.onError()
     }
-    
     
     // this.setState({address, list})
   }
@@ -92,7 +92,7 @@ export default class extends Component {
                   key={i}
                   onClick={this.changeIndex.bind(this, i)}
                 >
-                  {v.name}
+                  {v.name || v.fullname}
                 </li>
               ))}
             </ul>
