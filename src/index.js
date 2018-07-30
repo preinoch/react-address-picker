@@ -11,7 +11,8 @@ export default class extends Component {
       active: 0,
       activeStyle: {},
       address: [],
-      list: []
+      list: [],
+      // show: this.props.active
     };
   }
 
@@ -21,10 +22,10 @@ export default class extends Component {
       return;
     }
     this.changeIndex(index);
-    if(index === 0) {
-      value.id = ''
-    }else {
-      value = state.address[index-1]
+    if (index === 0) {
+      value.id = "";
+    } else {
+      value = state.address[index - 1];
     }
     this.setList(value);
   }
@@ -32,10 +33,7 @@ export default class extends Component {
   async handleListClick(value, index) {
     let active = this.state.active;
     let address = this.state.address;
-    // if(address[active].id != 0) {
-    //   active += 1
-    // }
-    address = address.slice(0, active);    
+    address = address.slice(0, active);
     address.push(value);
     this.setState({ address }, () => {
       this.changeIndex(active);
@@ -50,6 +48,10 @@ export default class extends Component {
         this.changeIndex(active);
       });
     }
+  }
+
+  handleCancelClick() {
+    this.props.onActiveChange(false)
   }
 
   changeIndex(index) {
@@ -94,9 +96,14 @@ export default class extends Component {
   render() {
     let state = this.state;
 
+    let selectorClass =
+      "rc-address-selector" + (this.props.active ? " rc-address-open" : "");
+
     return (
-      <div className="rc-address-selector">
-        <h2 className="onepx-border">行政区划选择</h2>
+      <div className={selectorClass}>
+        <h2 className="onepx-border">
+          行政区划选择<i className="rc-address-across" onClick={this.handleCancelClick.bind(this)}/>
+        </h2>
         <dl>
           <dt>
             {/* <i className="weui-loading"></i> */}

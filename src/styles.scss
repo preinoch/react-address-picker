@@ -6,7 +6,13 @@
   bottom: 0;
   background: #fff;
   color: #333;
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.3s;
 
+  &.rc-address-open {
+    transform: translate(0);
+  }
+  
   ul {
     list-style: none;
     margin: 0;
@@ -24,12 +30,37 @@
   }
 
   & > h2 {
+    position: relative;
     text-align: center;
-
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     padding: 16px;
     margin: 0;
+
+    .rc-address-across {
+      position: absolute;
+      right: 10px;
+      top: 16px;
+      width: 20px;
+      height: 20px;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        height: 16px;
+        width: 1.5px;
+        top: 2px;
+        right: 9px;
+        background: #c3c3c3;
+      }
+      &::before {
+        transform: rotate(45deg);
+      }
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
   }
 
   & > dl {
