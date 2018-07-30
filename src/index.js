@@ -15,36 +15,41 @@ export default class extends Component {
     };
   }
 
-  handleAddressClick(v, i) {
-    const state = this.state
-    if(i === state.active) {
-      return 
+  handleAddressClick(value, index) {
+    const state = this.state;
+    if (index === state.active) {
+      return;
     }
-    this.changeIndex(i);
-    this.setList(v);
+    this.changeIndex(index);
+    if(index === 0) {
+      value.id = ''
+    }else {
+      value = state.address[index-1]
+    }
+    this.setList(value);
   }
 
   async handleListClick(value, index) {
     let active = this.state.active;
     let address = this.state.address;
+    // if(address[active].id != 0) {
+    //   active += 1
+    // }
+    address = address.slice(0, active);    
+    address.push(value);
+    this.setState({ address }, () => {
+      this.changeIndex(active);
+    });
 
-    if (address[active].id === 0) {
-      address.splice(active, 1, value);
-      this.setState({ address }, () => {
-        this.changeIndex(active);
-      });
-    }
+    const list = await this.setList(value, index);
 
-    const list = await this.setList(value,index)
-
-    if(list.length > 0) {
+    if (list.length > 0) {
       address.push(unselected);
       active += 1;
       this.setState({ address, active }, () => {
         this.changeIndex(active);
       });
     }
-
   }
 
   changeIndex(index) {
@@ -63,7 +68,7 @@ export default class extends Component {
       let list = await this.props.getChildren(value.id, this.none.bind(this));
       this.props.onSuccess();
       this.setState({ list });
-      return list
+      return list;
     } catch (e) {
       this.props.onError();
     }
