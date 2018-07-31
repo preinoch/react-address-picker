@@ -1,17 +1,22 @@
 import React, { Component } from "react";
+import ReactDom from "react-dom";
 import "./styles.scss";
 
 const addressCache = [];
 const unselected = { name: "请选择", id: 0 };
 
+const PickerMask = ({show,onClick}) => {
+  let maskClassName = "rc-address-mask" + (show ? " active" : "");
+  return <div className={maskClassName} onClick={onClick}></div>;
+};
+
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: 0,
       activeStyle: {},
       address: [],
-      list: [],
+      list: []
     };
   }
 
@@ -36,8 +41,8 @@ export default class extends Component {
     address.push(value);
     this.setState({ address }, () => {
       this.changeIndex(active);
-    }); 
-    this.props.onAddressChange(address.filter(v=>(v.id!==0)))
+    });
+    this.props.onAddressChange(address.filter(v => v.id !== 0));
     const list = await this.setList(value, index);
 
     if (list.length > 0) {
@@ -50,7 +55,7 @@ export default class extends Component {
   }
 
   handleCancelClick() {
-    this.props.onActiveChange(false)
+    this.props.onActiveChange(false);
   }
 
   changeIndex(index) {
@@ -75,7 +80,15 @@ export default class extends Component {
     }
   }
 
+  handleMaskClick() {
+    this.props.onActiveChange(false);
+  }
+
   async componentWillMount() {
+    const maskContaniner = document.createElement('div')
+    maskContaniner.className = 'rc-address-wrapper'
+    document.body.appendChild(maskContaniner)
+
     if (this.state.address.length === 0) {
       let address = [unselected];
       let list = await this.props.getChildren();
@@ -84,24 +97,23 @@ export default class extends Component {
     }
   }
 
-  componentDidMount() {
-    // this.changeIndex(0);
-  }
-
-  componentWillUnmount() {
-    console.log("componentWillUnmount()");
-  }
+componentDidUpdate() {
+  ReactDom.render(<PickerMask show={this.props.active} onClick={this.handleMaskClick.bind(this)}/>, document.querySelector('.rc-address-wrapper'))
+} 
 
   render() {
     let state = this.state;
-
-    let selectorClass =
-      "rc-address-selector" + (this.props.active ? " rc-address-open" : "");
+    
+    let pickerClass =
+      "rc-address-picker" + (this.props.active ? " rc-address-open" : "");
 
     return (
-      <div className={selectorClass}>
+      <div className={pickerClass}>
         <h2 className="onepx-border">
-          行政区划选择<i className="rc-address-across" onClick={this.handleCancelClick.bind(this)}/>
+          行政区划选择<i
+            className="rc-address-across"
+            onClick={this.handleCancelClick.bind(this)}
+          />
         </h2>
         <dl>
           <dt>
@@ -127,8 +139,6 @@ export default class extends Component {
                 </li>
               ))}
             </ul>
-            {/* <button onClick={this.s}>设置</button>
-            <button onClick={this.g}>获取</button> */}
           </dd>
         </dl>
       </div>

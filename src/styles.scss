@@ -1,4 +1,4 @@
-.rc-address-selector {
+.rc-address-picker {
   position: fixed;
   height: 400px;
   left: 0;
@@ -8,6 +8,7 @@
   color: #333;
   transform: translate3d(0, 100%, 0);
   transition: transform 0.3s;
+  z-index:9;
 
   &.rc-address-open {
     transform: translate(0);
@@ -128,6 +129,7 @@
     background-size: 100%;
   }
 
+  
   @keyframes weuiLoading {
     0% {
       -webkit-transform: rotate3d(0, 0, 1, 0deg);
@@ -162,5 +164,23 @@
     .onepx-border::after {
       transform: scaleY(0.33);
     }
+  }
+}
+
+.rc-address-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,.4);
+  z-index:5;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .2s;
+  
+  &.active {
+    opacity: 100;
+    visibility: visible;
   }
 }
