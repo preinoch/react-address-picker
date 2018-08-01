@@ -4,11 +4,11 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-基于react的地址选择器
+基于react的地址选择器
 
-## 演示地址
+## 演示地址
 
-## props
+## props
 
 - getChildren - 获取下一级地址数据的方法，应该返回一个promise，resolve的值是地址信息数组。
 - active - 指定一个布尔值控制是否打开选择器
@@ -18,9 +18,7 @@
 
 ## 位置数据来源
 
-[腾讯位置服务](URL 'http://lbs.qq.com/webservice_v1/index.html')
-
-
+[腾讯位置服务](URL 'http://lbs.qq.com/webservice_v1/index.html')
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
