@@ -11,9 +11,9 @@
 ## props
 
 - getChildren - 获取下一级地址数据的方法，应该返回一个promise，resolve的值是地址信息数组。
-- active - 指定一个布尔值控制是否打开选择器
-- address - 指定一个数组为所选的地址
-- onAddressChange - 订阅一个地址变更事件
+- active - 指定一个布尔值控制是否打开选择器
+- address - 指定一个数组为所选的地址
+- onAddressChange - 订阅一个地址变更事件
 
 
 ## 位置数据来源
