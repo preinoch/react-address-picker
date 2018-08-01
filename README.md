@@ -4,7 +4,7 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-基于react的地址选择器
+基于腾讯位置服务api的移动端地址选择器
 
 ## 演示地址
 

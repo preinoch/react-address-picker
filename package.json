@@ -1,7 +1,7 @@
 {
-  "name": "react-address-selector",
-  "version": "1.0.0",
-  "description": "react-address-selector React component",
+  "name": "@inoch/react-address-picker",
+  "version": "0.1.1",
+  "description": "基于腾讯位置服务api的移动端地址选择器",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -23,7 +23,6 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "express": "^4.16.3",
     "jsonp": "^0.2.1",
     "nwb": "0.21.x",
     "nwb-sass": "^0.8.4",
@@ -31,11 +30,24 @@
     "react-dom": "^16.4.1",
     "react-weui": "^1.1.3"
   },
-  "author": "",
-  "homepage": "",
+  "author": "phill",
+  "homepage": "https://github.com/Veado/react-address-picker#readme",
   "license": "MIT",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Veado/react-address-picker.git"
+  },
   "keywords": [
-    "react-component"
-  ]
+    "react-component",
+    "react-address-picker",
+    "地址选择器",
+    "腾讯位置服务"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "bugs": {
+    "url": "https://github.com/Veado/react-address-picker/issues"
+  }
 }
